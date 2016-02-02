@@ -21,13 +21,14 @@ func main() {
 
 	device := flag.String("d", "eth0", "device")
 	port := flag.String("p", "514", "port")
+	protocol := flag.String("prot", "udp", "protocol")
 	flag.Parse()
 
 	handle, err := pcap.OpenLive(*device, snapshotLen, promiscuous, timeout)
 	if err != nil {
 		panic(err)
 	}
-	err = handle.SetBPFFilter("udp and port " + *port)
+	err = handle.SetBPFFilter(*protocol + " and port " + *port)
 	if err != nil {
 		panic(err)
 	}
